@@ -1,8 +1,23 @@
 import React from 'react'
+import Header from './Header'
 
 const App = () => {
+  // destructuring
+  const nav = [
+    {
+      name: "Home",
+      url: "/home"
+    },
+    {
+      name: "About",
+      url: "/about"
+    }
+  ]
+
   return (
-    <h1>Welcome to ProShop 2</h1>
+    <div>
+      <Header props={nav} />
+    </div>
   )
 }
 

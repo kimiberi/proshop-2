@@ -10,10 +10,10 @@
     }
     .style-div-1 {
         width: 60%;
+        margin-right: 20px;
     }
     .style-div-2 {
         width: 40%;
-        margin-left: 20px;
     }
   }
   @media only screen and (max-width:500px) {
@@ -22,16 +22,18 @@
         width: 100%;
         font-size: 14px;
     }
+
     .style-row-col {
         display: block; 
     }
     .style-div-1 {
         width: 100%;
+        margin-right: 0;
     }
     .style-div-2 {
         width: 100%;
+        margin-top: 50px;
         height: 350px;
-        margin-left: 0;
     }
   }
 
@@ -53,10 +55,10 @@
     }
     .style-div-1 {
         width: 60%;
+        margin-right: 20px;
     }
     .style-div-2 {
         width: 40%;
-        margin-left: 20px;
     }
   }
 
@@ -88,6 +90,11 @@ a.navLink {
     color: black;
 }
 
+ul {
+    margin: 0;
+    padding: 0;
+}
+
 ul li {
     background-color: burlywood;
     margin-bottom: 12px;
@@ -108,7 +115,6 @@ footer {
 }
 
 .style-bg-image {
-    background-image: url('/html/images/books.jpg');
     background-repeat: no-repeat;
     background-position: center;
     background-size:cover;
@@ -128,10 +134,20 @@ footer {
 }
 
 input[type=text], input[type=email], textarea {
-    width: 100%;
+    width: 90%;
     padding: 0.5em;
 }
 
 input[type=submit] {
-    padding: 0.5em 2em;
+    border: none;
+    outline: none;
+    padding: 10px 36px;
+    background-color: darkolivegreen;
+    color: white;
+    cursor: pointer;
+    letter-spacing: 3px;
+}
+
+input[type=submit]:hover {
+    background-color: green;
 }
