@@ -15,6 +15,11 @@
     .style-div-2 {
         width: 40%;
     }
+    .style-card {
+        background-color: burlywood; 
+        padding: 20px 15px; 
+        margin: 0 9px;
+    }
   }
   @media only screen and (max-width:500px) {
     /* For mobile phones: */
@@ -24,7 +29,7 @@
     }
 
     .style-row-col {
-        display: block; 
+        display: block;
     }
     .style-div-1 {
         width: 100%;
@@ -34,6 +39,12 @@
         width: 100%;
         margin-top: 50px;
         height: 350px;
+    }
+
+    .style-card {
+        background-color: burlywood; 
+        padding: 20px 15px; 
+        margin: 20px 9px;
     }
   }
 
@@ -59,6 +70,11 @@
     }
     .style-div-2 {
         width: 40%;
+    }
+    .style-card {
+        background-color: burlywood; 
+        padding: 20px 15px; 
+        margin: 0 9px;
     }
   }
 
@@ -134,12 +150,6 @@ footer {
     display: flex; 
     align-content: space-between; 
     flex-wrap: wrap;
-}
-
-.style-card {
-    background-color: burlywood; 
-    padding: 20px 15px; 
-    margin: 0 9px;
 }
 
 input[type=text], input[type=email], textarea {
