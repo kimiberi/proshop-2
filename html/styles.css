@@ -41,6 +41,18 @@ nav {
     padding: 1.5em 0 2.5em 0;
 }
 
+a.navLink {
+    text-decoration: none;
+    padding: 6px;
+    color: black;
+}
+
+/* Style the active class, and buttons on mouse-over */
+.active, .navLink:hover {
+    background-color: antiquewhite;
+    color: black;
+  }
+
 section {
     background-color: antiquewhite;
     padding: 1.5em;
@@ -67,7 +79,7 @@ footer {
     justify-content: space-between;
 }
 
-input[type=text], textarea {
+input[type=text], input[type=email], textarea {
     width: 100%;
     padding: 0.5em;
 }
