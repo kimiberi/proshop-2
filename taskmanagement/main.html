@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <title>Welcome!</title>
+    </head>
+    <body>
+        <h1 style="text-align: center;">Task Management</h1>
+        <h2>Add Task</h2>
+
+        
+        
+
+        <div class="style-box">
+            <div>
+                <label for="title">Title:</label><br>
+                <input type="text" id="id_title" name="title" />
+            </div>
+            <div>
+                <label for="desc">Description:</label><br>
+                <input type="text" id="id_desc" name="desc" />
+            </div>
+            <div>
+                <label for="date">Date:</label><br>
+                <input type="date" id="id_date" name="date" />
+            </div>
+            <div>
+                <button onclick="addTask()">Add task</button>
+            </div>
+        </div>
+
+        <br><br>
+        <table border>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Date</th>
+            <tr>
+                <td><p id="title"></p></td>
+                <td><p id="desc"></p></td>
+                <td><p id="date"></p></td>
+            </tr>
+        </table>
+
+        <script src="./calc.js"></script>
+    </body>
+</html>
