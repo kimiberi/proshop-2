@@ -1,4 +1,22 @@
-var isUpdate = false;
+window.addEventListener(
+    'load',
+    (() => {
+        let tableList = document.getElementById('display_tableList');
+        let table_ui = `
+            <th>Title</th>
+            <th>Description</th>
+            ${JSON.parse(localStorage.getItem("localData")).map((data, index) =>
+            `
+            <tr>
+            <td>${data.title}</td>
+            <td>${data.desc}</td>
+            <td><button onClick=editTask(${index})>EDIT</button>
+            <td><button onClick=deleteTask(${index})>DELETE</button>
+            </tr>
+            `).join('')}`;
+            tableList.innerHTML = table_ui;
+    })()
+  );
 
 function deleteTask(index) {
     // console.log(index)
