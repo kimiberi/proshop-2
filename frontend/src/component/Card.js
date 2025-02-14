@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 // import "../index"
 import style from "../component/card.module.css"
 
@@ -7,6 +7,8 @@ const getMenu = (getTitle) => {
 }
 
 const Card = ({ title, desc }) => {
+  const [details, setDetails] = useState();
+
   return (
     <div className={style.card} 
     style={{ border: "1px solid #777", textAlign: "center" }}
@@ -14,6 +16,9 @@ const Card = ({ title, desc }) => {
     >
         <h1>{title}</h1>
         <p>{desc}</p>
+        
+        <p>{details}</p>
+        <button onClick={() => setDetails("blue")}>click</button>
     </div>
   )
 }
