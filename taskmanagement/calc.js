@@ -90,6 +90,16 @@ function saveTask(index) {
         `).join('')}`;
         tableList.innerHTML = table_ui;
     //  console.log(table_ui)
+
+    // clear input fields
+    _title.value = '';
+    _desc.value = '';
+
+    let btnList = document.getElementById('display_btn');
+    let btn_ui = `
+        <button id="btn_add" onclick="addTask()">Add task</button>
+    `;
+    btnList.innerHTML = btn_ui;
 }
 
 function addTask() {
