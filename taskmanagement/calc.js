@@ -65,9 +65,31 @@ function saveTask(index) {
     let getdata = JSON.parse(getExistingData)[index];
     getdata = save_task;
     console.log(getdata);
-    console.log(getExistingData);
 
-    // localStorage.setItem("localData", JSON.stringify(getExistingData));
+    // update the specific data
+    let getwholeData = JSON.parse(getExistingData);
+    const result = getwholeData.map((data, i) => index == i ? save_task : data);
+    console.log(result);
+
+    // save it
+    localStorage.setItem("localData", JSON.stringify(result));
+
+    // display the new updated data
+    let tableList = document.getElementById('display_tableList');
+    let table_ui = `
+        <th>Title</th>
+        <th>Description</th>
+        ${JSON.parse(localStorage.getItem("localData")).map((data, index) =>
+        `
+        <tr>
+        <td>${data.title}</td>
+        <td>${data.desc}</td>
+        <td><button onClick=editTask(${index})>EDIT</button>
+        <td><button onClick=deleteTask(${index})>DELETE</button>
+        </tr>
+        `).join('')}`;
+        tableList.innerHTML = table_ui;
+    //  console.log(table_ui)
 }
 
 function addTask() {
