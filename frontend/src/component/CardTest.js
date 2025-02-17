@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 // import "../index"
-import style from "../component/card.module.css"
+import style from "../component/cardtest.module.css"
 
 const getMenu = (getTitle) => {
     console.log(getTitle)
 }
 
-const Card = ({ title, desc }) => {
+const CardTest = ({ title, desc }) => {
   const [details, setDetails] = useState();
 
   return (
@@ -23,4 +23,4 @@ const Card = ({ title, desc }) => {
   )
 }
 
-export default Card
+export default CardTest

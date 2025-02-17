@@ -3,6 +3,18 @@ import React from 'react'
 const Header = ({props}) => {
   const name = "kim"
 
+  // destructuring
+  const nav = [
+    {
+      name: "Home",
+      url: "/home"
+    },
+    {
+      name: "About",
+      url: "/about"
+    }
+  ]
+
   return (
     <div>
       <h1>Welcome {name}</h1>
