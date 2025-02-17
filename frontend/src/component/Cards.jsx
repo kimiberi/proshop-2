@@ -8,49 +8,25 @@ import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import Divider from '@mui/material/Divider';
 import Grid from '@mui/material/Grid2';
-import axios from "axios";
+// import axios from "axios";
 import { getCardContent } from '../services/api';
 import _ from "lodash";
 import moment from "moment";
 import CharacterData from '../styleComponent/CharacterData';
 import { useSelector, useDispatch } from 'react-redux';
-import { type, value } from '../redux/counterSlice';
+import { type, checked, list } from '../redux/filterSlice';
 
-const baseURL = "https://rickandmortyapi.com/api/character/";
+// const baseURL = "https://rickandmortyapi.com/api/character/";
 
 const Cards = () => {
   const type1 = useSelector((state) => state.species.type);
-  const value1 = useSelector((state) => state.species.value);
+  const checked1 = useSelector((state) => state.species.checked);
+  const list1 = useSelector((state) => state.species.list);
   const dispatch = useDispatch();
-
-  const [post, setPost] = useState(null);
-
-  console.log(type1);
-  console.log(value1);
-
-  useEffect(() => {
-    // axios.get(baseURL).then((response) => {
-    //   setPost(response.data);
-    // });
-
-    const fetchData = async () => {
-      const response = await getCardContent();
-      setPost(response.data['results']);
-    };
-
-    fetchData();
-  }, []);
-
-
-  // console.log(post);
-
-  const test = [
-    {name: "kim", age: 30}, {name: "jom", age: 31}
-  ]
 
   return (
       <Grid container spacing={2}>
-        {_.map(post, (data) => (
+        {_.map(list1, (data) => (
           <Grid size={4} key={data.id}>
             <Card sx={{ maxWidth: 345 }}>
             <CardMedia
@@ -88,7 +64,7 @@ const Cards = () => {
               </CardContent>
 
               <CardActions>
-                <Button size="small" onClick={() => {dispatch(type("human")); dispatch(value(true))}}>Share</Button>
+                <Button size="small" onClick={() => {dispatch(type("Alien")); dispatch(checked())}}>Share</Button>
                 <Button size="small">Learn More</Button>
               </CardActions>
             </Card>
