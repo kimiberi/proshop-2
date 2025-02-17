@@ -13,11 +13,20 @@ import { getCardContent } from '../services/api';
 import _ from "lodash";
 import moment from "moment";
 import CharacterData from '../styleComponent/CharacterData';
+import { useSelector, useDispatch } from 'react-redux';
+import { type, value } from '../redux/counterSlice';
 
 const baseURL = "https://rickandmortyapi.com/api/character/";
 
 const Cards = () => {
+  const type1 = useSelector((state) => state.species.type);
+  const value1 = useSelector((state) => state.species.value);
+  const dispatch = useDispatch();
+
   const [post, setPost] = useState(null);
+
+  console.log(type1);
+  console.log(value1);
 
   useEffect(() => {
     // axios.get(baseURL).then((response) => {
@@ -79,7 +88,7 @@ const Cards = () => {
               </CardContent>
 
               <CardActions>
-                <Button size="small">Share</Button>
+                <Button size="small" onClick={() => {dispatch(type("human")); dispatch(value(true))}}>Share</Button>
                 <Button size="small">Learn More</Button>
               </CardActions>
             </Card>

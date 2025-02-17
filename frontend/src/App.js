@@ -1,13 +1,15 @@
 import React from 'react'
 import Cards from './component/Cards';
 import CheckboxFilter from './component/CheckboxFilter';
+import { Provider } from "react-redux";
+import { store } from './redux/store';
 
 const App = () => {
   return (
-    <div>
+    <Provider store={store}>
       <CheckboxFilter />
       <Cards />
-    </div>
+    </Provider>
   )
 }
 
