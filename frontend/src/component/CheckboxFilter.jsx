@@ -50,10 +50,10 @@ const CheckboxFilter = () => {
     <>
     <FormGroup>
       <FormControlLabel control={<Checkbox value="Human" onChange={e => { dispatch(type(e.target.value)); dispatch(checked(e.target.checked)); }} />} label="Human" />
-      <FormControlLabel control={<Checkbox value="Alien" onChange={e => handleOnChange(e)} />} label="Alien" />
+      <FormControlLabel control={<Checkbox value="Alien" onChange={e => { dispatch(type(e.target.value)); dispatch(checked(e.target.checked)); }} />} label="Alien" />
     </FormGroup>
-    {JSON.stringify(isChecked)}
-    {species}
+    {JSON.stringify(speciesChecked)}
+    {JSON.stringify(speciesType)}
     </>
   )
 }
