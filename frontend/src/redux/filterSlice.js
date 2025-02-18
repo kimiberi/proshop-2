@@ -11,11 +11,11 @@ const filterSlice = createSlice({
   initialState,
   reducers: {
     type: (state, action) => {
-      if (!state.checked) { state.type = action.payload }
-        else { state.type = "" }
+      state.type = action.payload;
     },
-    checked: (state) => {
-      state.checked = !state.checked;
+    checked: (state, action) => {
+      // state.checked = !state.checked;
+      state.checked = action.payload;
     },
     list: (state, action) => {
       state.list = action.payload;

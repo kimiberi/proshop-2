@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-import _ from "lodash";
+import _, { isEmpty } from "lodash";
 import { getCardContent } from '../services/api';
 import { useSelector, useDispatch } from 'react-redux';
 import { type, checked, list } from '../redux/filterSlice';
@@ -14,6 +14,8 @@ const CheckboxFilter = () => {
     const speciesList = useSelector((state) => state.species.list);
 
     const [post, setPost] = useState([]);
+    const [filterList, setFilterList] = useState([]);
+    const [allList, setAllList] = useState([]);
 
     const [isChecked, setIsChecked] = useState(false);
     const [species, setSpecies] = useState("");
@@ -34,18 +36,36 @@ const CheckboxFilter = () => {
     }, []); // Runs once when component mounts
 
     useEffect(() => {
-        // Runs only when `type` or `checked` changes
-        
         const filterSpecies = _.filter(post, { species: speciesType });
-        !speciesChecked ? dispatch(list(post)) : dispatch(list(filterSpecies));
+        // !speciesChecked ? dispatch(list(post)) : dispatch(list(filterSpecies));
 
-        console.log(speciesType);
-        console.log(speciesChecked);
+    }, []);
 
-    }, [speciesType, speciesChecked]);
+    useEffect(() => {
+        // verify if 'speciesType' already exists
+        const filterProcess = _.includes(filterList, speciesType);
 
-    console.log(speciesList);
+        // if checked AND 'speciesType' not yet exists THEN add it
+        if (speciesChecked && !filterProcess) setFilterList([...filterList, speciesType]);
 
+        // if unchecked AND 'speciesType' still exists THEN delete it
+        if (!speciesChecked && filterProcess) {
+            const result = _.reduce(filterList, (storeData, data) => {
+                if (data !== speciesType) storeData.push(data);
+                return storeData; 
+            }, []); // Returns [] if all values are removed
+
+            setFilterList(result);
+        }
+
+        // console.log(speciesType);
+        // console.log(speciesChecked);
+        console.log(filterList);
+        console.log(speciesList);
+
+    }, [speciesType, speciesChecked, filterList]); // Runs only when `type` or `checked` changes
+
+    
   return (
     <>
     <FormGroup>
