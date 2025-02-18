@@ -64,14 +64,29 @@ const CheckboxFilter = () => {
 
             setAllList(resultAllList);
             dispatch(list(resultAllList));
-        }
+        } 
 
         // console.log(speciesType);
         // console.log(speciesChecked);
         console.log(filterList);
         console.log(allList);
+        console.log(speciesList);
 
     }, [speciesType, speciesChecked, filterList, allList]); // Runs only when `type` or `checked` changes
+
+    useEffect(() => {
+        // RESET if ALL data had been checked or unchecked
+        const fetchAllDataFiltered = async () => {
+              const response = await speciesList;
+              console.log(response);
+            //   dispatch(list(response.data['results']));
+              if (_.isEmpty(response) || post.length === speciesList.length) {
+                dispatch(list(post));
+              }
+            };
+        fetchAllDataFiltered();
+        
+    }, [filterList]); // Runs only when `filterList` changes
 
   return (
     <>
