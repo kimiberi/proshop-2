@@ -20,10 +20,10 @@ const CheckboxFilter = () => {
     const [isChecked, setIsChecked] = useState(false);
     const [species, setSpecies] = useState("");
 
-    const handleOnChange = (e) => {
-         setIsChecked(!isChecked);
-         setSpecies(e.target.value);
-    }
+    // const handleOnChange = (e) => {
+    //      setIsChecked(!isChecked);
+    //      setSpecies(e.target.value);
+    // }
 
     useEffect(() => {
         const fetchData = async () => {
@@ -36,17 +36,18 @@ const CheckboxFilter = () => {
     }, []); // Runs once when component mounts
 
     useEffect(() => {
-        const filterSpecies = _.filter(post, { species: speciesType });
-        // !speciesChecked ? dispatch(list(post)) : dispatch(list(filterSpecies));
-
-    }, []);
-
-    useEffect(() => {
         // verify if 'speciesType' already exists
         const filterProcess = _.includes(filterList, speciesType);
 
+        // filter dataList based on the 'speciesType'
+        const filterSpecies = _.filter(post, { species: speciesType });
+
         // if checked AND 'speciesType' not yet exists THEN add it
-        if (speciesChecked && !filterProcess) setFilterList([...filterList, speciesType]);
+        if (speciesChecked && !filterProcess) {
+            setFilterList([...filterList, speciesType]);
+            setAllList([...allList, ...filterSpecies]);
+            dispatch(list([...allList, ...filterSpecies]));
+        }
 
         // if unchecked AND 'speciesType' still exists THEN delete it
         if (!speciesChecked && filterProcess) {
@@ -54,18 +55,24 @@ const CheckboxFilter = () => {
                 if (data !== speciesType) storeData.push(data);
                 return storeData; 
             }, []); // Returns [] if all values are removed
-
             setFilterList(result);
+
+            const resultAllList = _.reduce(allList, (storeData, data) => {
+                if (data.species !== speciesType) storeData.push(data);
+                return storeData; 
+            }, []); // Returns [] if all values are removed
+
+            setAllList(resultAllList);
+            dispatch(list(resultAllList));
         }
 
         // console.log(speciesType);
         // console.log(speciesChecked);
         console.log(filterList);
-        console.log(speciesList);
+        console.log(allList);
 
-    }, [speciesType, speciesChecked, filterList]); // Runs only when `type` or `checked` changes
+    }, [speciesType, speciesChecked, filterList, allList]); // Runs only when `type` or `checked` changes
 
-    
   return (
     <>
     <FormGroup>
