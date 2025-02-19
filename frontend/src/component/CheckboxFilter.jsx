@@ -1,103 +1,136 @@
-import React, { useEffect, useState } from 'react';
-import FormGroup from '@mui/material/FormGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import _, { isEmpty } from "lodash";
-import { getCardContent } from '../services/api';
-import { useSelector, useDispatch } from 'react-redux';
-import { type, checked, list } from '../redux/filterSlice';
+import React, { useEffect, useState } from "react";
+import FormGroup from "@mui/material/FormGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
+import _ from "lodash";
+import { getCardContent } from "../services/api";
+import { useSelector, useDispatch } from "react-redux";
+import { type, checked, list } from "../redux/filterSlice";
 
 const CheckboxFilter = () => {
-    const dispatch = useDispatch();
-    const speciesType = useSelector((state) => state.species.type);
-    const speciesChecked = useSelector((state) => state.species.checked);
-    const speciesList = useSelector((state) => state.species.list);
+  const dispatch = useDispatch();
+  const isType = useSelector((state) => state.species.type);
+  const isChecked = useSelector((state) => state.species.checked);
+  const isTypeListData = useSelector((state) => state.species.list);
 
-    const [post, setPost] = useState([]);
-    const [filterList, setFilterList] = useState([]);
-    const [allList, setAllList] = useState([]);
+  const [defaultPost, setDefaultPost] = useState([]);
+  const [chipList, setChipList] = useState([]);
+  const [shallowList, setShallowList] = useState([]);
 
-    const [isChecked, setIsChecked] = useState(false);
-    const [species, setSpecies] = useState("");
+  // const [isChecked, setIsChecked] = useState(false);
+  // const handleOnChange = (e) => {
+  //      setIsChecked(!isChecked);
+  //      setSpecies(e.target.value);
+  // }
 
-    // const handleOnChange = (e) => {
-    //      setIsChecked(!isChecked);
-    //      setSpecies(e.target.value);
-    // }
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await getCardContent();
+      setDefaultPost(response.data["results"]);
+      dispatch(list(response.data["results"]));
+    };
+    fetchData();
+  }, [dispatch]); // Runs once when component mounts
 
-    useEffect(() => {
-        const fetchData = async () => {
-              const response = await getCardContent();
-              setPost(response.data['results']);
-              dispatch(list(response.data['results']));
-            };
-        fetchData();
-        
-    }, []); // Runs once when component mounts
+  useEffect(() => {
+    // verify if 'isType' already exists
+    const isTypeExist = _.includes(chipList, isType);
 
-    useEffect(() => {
-        // verify if 'speciesType' already exists
-        const filterProcess = _.includes(filterList, speciesType);
+    // filter dataList based on the 'isType'
+    const filterTypeList = _.filter(defaultPost, { species: isType });
 
-        // filter dataList based on the 'speciesType'
-        const filterSpecies = _.filter(post, { species: speciesType });
+    // if checked AND 'isType' not yet exists THEN add it
+    if (isChecked && !isTypeExist) {
+      setChipList([...chipList, isType]);
+      setShallowList([...shallowList, ...filterTypeList]);
+      dispatch(list([...shallowList, ...filterTypeList]));
+    }
 
-        // if checked AND 'speciesType' not yet exists THEN add it
-        if (speciesChecked && !filterProcess) {
-            setFilterList([...filterList, speciesType]);
-            setAllList([...allList, ...filterSpecies]);
-            dispatch(list([...allList, ...filterSpecies]));
-        }
+    // if unchecked AND 'isType' still exists THEN delete it
+    if (!isChecked && isTypeExist) {
+      const result = _.reduce(
+        chipList,
+        (storeData, data) => {
+          if (data !== isType) storeData.push(data);
+          return storeData;
+        },
+        []
+      ); // Returns [] if all values are removed
+      setChipList(result);
 
-        // if unchecked AND 'speciesType' still exists THEN delete it
-        if (!speciesChecked && filterProcess) {
-            const result = _.reduce(filterList, (storeData, data) => {
-                if (data !== speciesType) storeData.push(data);
-                return storeData; 
-            }, []); // Returns [] if all values are removed
-            setFilterList(result);
+      const resultTypeList = _.reduce(
+        shallowList,
+        (storeData, data) => {
+          if (data.species !== isType) storeData.push(data);
+          return storeData;
+        },
+        []
+      ); // Returns [] if all values are removed
 
-            const resultAllList = _.reduce(allList, (storeData, data) => {
-                if (data.species !== speciesType) storeData.push(data);
-                return storeData; 
-            }, []); // Returns [] if all values are removed
+      setShallowList(resultTypeList);
+      dispatch(list(resultTypeList));
+    }
 
-            setAllList(resultAllList);
-            dispatch(list(resultAllList));
-        } 
+    // console.log(isType);
+    // console.log(isChecked);
+    console.log(chipList);
+    console.log(shallowList);
+    console.log(isTypeListData);
+  }, [
+    isType,
+    isChecked,
+    chipList,
+    shallowList,
+    dispatch,
+    defaultPost,
+    isTypeListData,
+  ]); // Runs only when `type` or `checked` changes
 
-        // console.log(speciesType);
-        // console.log(speciesChecked);
-        console.log(filterList);
-        console.log(allList);
-        console.log(speciesList);
-
-    }, [speciesType, speciesChecked, filterList, allList]); // Runs only when `type` or `checked` changes
-
-    useEffect(() => {
-        // RESET if ALL data had been checked or unchecked
-        const fetchAllDataFiltered = async () => {
-              const response = await speciesList;
-              console.log(response);
-            //   dispatch(list(response.data['results']));
-              if (_.isEmpty(response) || post.length === speciesList.length) {
-                dispatch(list(post));
-              }
-            };
-        fetchAllDataFiltered();
-        
-    }, [filterList]); // Runs only when `filterList` changes
+  useEffect(() => {
+    // RESET if ALL data had been checked or unchecked
+    const fetchAllDataFiltered = async () => {
+      const response = await isTypeListData;
+      console.log(response);
+      //   dispatch(list(response.data['results']));
+      if (_.isEmpty(response) || defaultPost.length === isTypeListData.length) {
+        dispatch(list(defaultPost));
+      }
+    };
+    fetchAllDataFiltered();
+  }, [chipList, dispatch, defaultPost, isTypeListData]); // Runs only when `chipList` changes
 
   return (
     <>
-    <FormGroup>
-      <FormControlLabel control={<Checkbox value="Human" onChange={e => { dispatch(type(e.target.value)); dispatch(checked(e.target.checked)); }} />} label="Human" />
-      <FormControlLabel control={<Checkbox value="Alien" onChange={e => { dispatch(type(e.target.value)); dispatch(checked(e.target.checked)); }} />} label="Alien" />
-    </FormGroup>
-    {JSON.stringify(speciesChecked)}
-    {JSON.stringify(speciesType)}
+      <FormGroup>
+        <FormControlLabel
+          control={
+            <Checkbox
+              value="Human"
+              onChange={(e) => {
+                dispatch(type(e.target.value));
+                dispatch(checked(e.target.checked));
+              }}
+            />
+          }
+          label="Human"
+        />
+        <FormControlLabel
+          control={
+            <Checkbox
+              value="Alien"
+              onChange={(e) => {
+                dispatch(type(e.target.value));
+                dispatch(checked(e.target.checked));
+              }}
+            />
+          }
+          label="Alien"
+        />
+      </FormGroup>
+      {JSON.stringify(isChecked)}
+      {JSON.stringify(isType)}
     </>
-  )
-}
+  );
+};
 
-export default CheckboxFilter
+export default CheckboxFilter;
