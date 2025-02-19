@@ -18,59 +18,61 @@ const Cards = () => {
   const isTypeListData = useSelector((state) => state.species.list);
 
   return (
-    <Grid container spacing={2}>
-      {_.map(isTypeListData, (data) => (
-        <Grid size={4} key={data.id}>
-          <Card sx={{ maxWidth: 345 }}>
-            <CardMedia
-              component="img"
-              alt={data.name}
-              height="100%"
-              image={data.image}
-            />
+    <div style={{ width: "80%" }}>
+      <Grid container spacing={2} sx={{ padding: "21px" }}>
+        {_.map(isTypeListData, (data) => (
+          <Grid size={4} key={data.id}>
+            <Card sx={{ maxWidth: 345 }}>
+              <CardMedia
+                component="img"
+                alt={data.name}
+                height="100%"
+                image={data.image}
+              />
 
-            <CardContent sx={{ background: "cornsilk" }}>
-              <Typography gutterBottom variant="h5" component="div">
-                {data.name}
-              </Typography>
+              <CardContent sx={{ background: "cornsilk" }}>
+                <Typography gutterBottom variant="h5" component="div">
+                  {data.name}
+                </Typography>
 
-              <Typography
-                component={"span"}
-                variant="body2"
-                sx={{ color: "text.secondary" }}
-              >
-                <Stack
-                  direction="row"
-                  divider={<Divider orientation="vertical" flexItem />}
-                  spacing={2}
+                <Typography
+                  component={"span"}
+                  variant="body2"
+                  sx={{ color: "text.secondary" }}
                 >
-                  <span>ID: {data.id}</span>
-                  <span>
-                    created: {moment(data.created, "YYYYMMDD").fromNow()}
-                  </span>
-                </Stack>
-              </Typography>
+                  <Stack
+                    direction="row"
+                    divider={<Divider orientation="vertical" flexItem />}
+                    spacing={2}
+                  >
+                    <span>ID: {data.id}</span>
+                    <span>
+                      created: {moment(data.created, "YYYYMMDD").fromNow()}
+                    </span>
+                  </Stack>
+                </Typography>
 
-              <Typography
-                component={"span"}
-                variant="body2"
-                sx={{ color: "text.secondary" }}
-              >
-                <CharacterData
-                  details={{
-                    status: data.status,
-                    species: data.species,
-                    gender: data.gender,
-                    origin: data.origin["name"],
-                    location: data.location["name"],
-                  }}
-                />
-              </Typography>
-            </CardContent>
-          </Card>
-        </Grid>
-      ))}
-    </Grid>
+                <Typography
+                  component={"span"}
+                  variant="body2"
+                  sx={{ color: "text.secondary" }}
+                >
+                  <CharacterData
+                    details={{
+                      status: data.status,
+                      species: data.species,
+                      gender: data.gender,
+                      origin: data.origin["name"],
+                      location: data.location["name"],
+                    }}
+                  />
+                </Typography>
+              </CardContent>
+            </Card>
+          </Grid>
+        ))}
+      </Grid>
+    </div>
   );
 };
 

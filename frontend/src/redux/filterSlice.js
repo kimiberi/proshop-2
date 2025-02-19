@@ -1,9 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  type: "",
+  type: { category: "", name: "" },
   checked: false,
   list: [],
+  typeList: [],
 };
 
 const filterSlice = createSlice({
@@ -20,8 +21,11 @@ const filterSlice = createSlice({
     list: (state, action) => {
       state.list = action.payload;
     },
+    typeList: (state, action) => {
+      state.typeList = action.payload;
+    },
   },
 });
 
-export const { type, checked, list } = filterSlice.actions;
+export const { type, checked, list, typeList } = filterSlice.actions;
 export default filterSlice.reducer;
