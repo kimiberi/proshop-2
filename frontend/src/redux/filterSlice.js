@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   type: "",
+  typeName: "",
   checked: false,
   list: [],
 };
@@ -13,6 +14,9 @@ const filterSlice = createSlice({
     type: (state, action) => {
       state.type = action.payload;
     },
+    typeName: (state, action) => {
+      state.typeName = action.payload;
+    },
     checked: (state, action) => {
       // state.checked = !state.checked;
       state.checked = action.payload;
@@ -23,5 +27,5 @@ const filterSlice = createSlice({
   },
 });
 
-export const { type, checked, list } = filterSlice.actions;
+export const { type, typeName, checked, list } = filterSlice.actions;
 export default filterSlice.reducer;

@@ -5,11 +5,12 @@ import Checkbox from "@mui/material/Checkbox";
 import _ from "lodash";
 import { getCardContent } from "../services/api";
 import { useSelector, useDispatch } from "react-redux";
-import { type, checked, list } from "../redux/filterSlice";
+import { type, typeName, checked, list } from "../redux/filterSlice";
 
 const CheckboxFilter = () => {
   const dispatch = useDispatch();
   const isType = useSelector((state) => state.category.type);
+  const isTypeName = useSelector((state) => state.category.typeName);
   const isChecked = useSelector((state) => state.category.checked);
   const isTypeListData = useSelector((state) => state.category.list);
 
@@ -37,7 +38,7 @@ const CheckboxFilter = () => {
     const isTypeExist = _.includes(chipList, isType);
 
     // filter dataList based on the 'isType'
-    const filterTypeList = _.filter(defaultPost, { species: isType });
+    const filterTypeList = _.filter(defaultPost, { [isTypeName]: isType });
 
     // if checked AND 'isType' not yet exists THEN add it
     if (isChecked && !isTypeExist) {
@@ -73,9 +74,10 @@ const CheckboxFilter = () => {
 
     // console.log(isType);
     // console.log(isChecked);
-    console.log(chipList);
-    console.log(shallowList);
-    console.log(isTypeListData);
+    // console.log(chipList);
+    // console.log(shallowList);
+    // console.log(isTypeListData);
+    console.log(isTypeName);
   }, [
     isType,
     isChecked,
@@ -84,13 +86,14 @@ const CheckboxFilter = () => {
     dispatch,
     defaultPost,
     isTypeListData,
+    isTypeName,
   ]); // Runs only when `type` or `checked` changes
 
   useEffect(() => {
     // RESET if ALL data had been checked or unchecked
     const fetchAllDataFiltered = async () => {
       const response = await isTypeListData;
-      console.log(response);
+      // console.log(response);
       //   dispatch(list(response.data['results']));
       if (_.isEmpty(response) || defaultPost.length === isTypeListData.length) {
         dispatch(list(defaultPost));
@@ -108,6 +111,7 @@ const CheckboxFilter = () => {
               value="Human"
               onChange={(e) => {
                 dispatch(type(e.target.value));
+                dispatch(typeName("species"));
                 dispatch(checked(e.target.checked));
               }}
             />
@@ -120,6 +124,7 @@ const CheckboxFilter = () => {
               value="Alien"
               onChange={(e) => {
                 dispatch(type(e.target.value));
+                dispatch(typeName("species"));
                 dispatch(checked(e.target.checked));
               }}
             />
