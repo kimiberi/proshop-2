@@ -9,9 +9,9 @@ import { type, checked, list } from "../redux/filterSlice";
 
 const CheckboxFilter = () => {
   const dispatch = useDispatch();
-  const isType = useSelector((state) => state.species.type);
-  const isChecked = useSelector((state) => state.species.checked);
-  const isTypeListData = useSelector((state) => state.species.list);
+  const isType = useSelector((state) => state.category.type);
+  const isChecked = useSelector((state) => state.category.checked);
+  const isTypeListData = useSelector((state) => state.category.list);
 
   const [defaultPost, setDefaultPost] = useState([]);
   const [chipList, setChipList] = useState([]);

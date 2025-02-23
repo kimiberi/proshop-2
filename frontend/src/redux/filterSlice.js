@@ -7,7 +7,7 @@ const initialState = {
 };
 
 const filterSlice = createSlice({
-  name: "species",
+  name: "category",
   initialState,
   reducers: {
     type: (state, action) => {

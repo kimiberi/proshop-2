@@ -15,7 +15,7 @@ import { useSelector } from "react-redux";
 // const baseURL = "https://rickandmortyapi.com/api/character/";
 
 const Cards = () => {
-  const isTypeListData = useSelector((state) => state.species.list);
+  const isTypeListData = useSelector((state) => state.category.list);
 
   return (
     <div style={{ width: "80%" }}>
