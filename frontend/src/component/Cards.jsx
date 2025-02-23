@@ -18,8 +18,8 @@ const Cards = () => {
   const isTypeListData = useSelector((state) => state.category.list);
 
   return (
-    <div style={{ width: "80%" }}>
-      <Grid container spacing={2} sx={{ padding: "21px" }}>
+    <div style={{ width: "80%", background: "#f8ebe0", padding: "50px" }}>
+      <Grid container spacing={5}>
         {_.map(isTypeListData, (data) => (
           <Grid size={4} key={data.id}>
             <Card sx={{ maxWidth: 345 }}>
@@ -30,7 +30,7 @@ const Cards = () => {
                 image={data.image}
               />
 
-              <CardContent sx={{ background: "cornsilk" }}>
+              <CardContent sx={{ background: "#eedfd0" }}>
                 <Typography gutterBottom variant="h5" component="div">
                   {data.name}
                 </Typography>

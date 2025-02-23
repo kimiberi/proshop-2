@@ -103,38 +103,50 @@ const CheckboxFilter = () => {
   }, [chipList, dispatch, defaultPost, isTypeListData]); // Runs only when `chipList` changes
 
   return (
-    <>
-      <FormGroup>
-        <FormControlLabel
-          control={
-            <Checkbox
-              value="Human"
-              onChange={(e) => {
-                dispatch(type(e.target.value));
-                dispatch(typeName("species"));
-                dispatch(checked(e.target.checked));
-              }}
-            />
-          }
-          label="Human"
-        />
-        <FormControlLabel
-          control={
-            <Checkbox
-              value="Alien"
-              onChange={(e) => {
-                dispatch(type(e.target.value));
-                dispatch(typeName("species"));
-                dispatch(checked(e.target.checked));
-              }}
-            />
-          }
-          label="Alien"
-        />
-      </FormGroup>
+    <div style={{ width: "20%", background: "#f8ebe0", padding: "21px" }}>
+      <h2>Filter</h2>
+
+      <div
+        style={{
+          background: "#dbb697",
+          padding: "15px 21px",
+          borderRadius: "20px",
+          border: "8px solid #eedfd0",
+        }}
+      >
+        <h3>Species</h3>
+        <FormGroup>
+          <FormControlLabel
+            control={
+              <Checkbox
+                value="Human"
+                onChange={(e) => {
+                  dispatch(type(e.target.value));
+                  dispatch(typeName("species"));
+                  dispatch(checked(e.target.checked));
+                }}
+              />
+            }
+            label="Human"
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                value="Alien"
+                onChange={(e) => {
+                  dispatch(type(e.target.value));
+                  dispatch(typeName("species"));
+                  dispatch(checked(e.target.checked));
+                }}
+              />
+            }
+            label="Alien"
+          />
+        </FormGroup>
+      </div>
       {JSON.stringify(isChecked)}
       {JSON.stringify(isType)}
-    </>
+    </div>
   );
 };
 
