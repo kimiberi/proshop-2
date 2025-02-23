@@ -2,17 +2,26 @@ import React, { useEffect, useState } from "react";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
+import style from "../css/checkboxFilter.module.css";
 import _ from "lodash";
 import { getCardContent } from "../services/api";
 import { useSelector, useDispatch } from "react-redux";
-import { type, typeName, checked, list } from "../redux/filterSlice";
+import {
+  type,
+  typeName,
+  checked,
+  list,
+  speciesList,
+} from "../redux/filterSlice";
 
 const CheckboxFilter = () => {
   const dispatch = useDispatch();
   const isType = useSelector((state) => state.category.type);
   const isTypeName = useSelector((state) => state.category.typeName);
   const isChecked = useSelector((state) => state.category.checked);
+
   const isTypeListData = useSelector((state) => state.category.list);
+  const isSpeciesList = useSelector((state) => state.category.speciesList);
 
   const [defaultPost, setDefaultPost] = useState([]);
   const [chipList, setChipList] = useState([]);
@@ -72,9 +81,9 @@ const CheckboxFilter = () => {
       dispatch(list(resultTypeList));
     }
 
-    // console.log(isType);
+    console.log(isType);
     // console.log(isChecked);
-    // console.log(chipList);
+    console.log(chipList);
     // console.log(shallowList);
     // console.log(isTypeListData);
     console.log(isTypeName);
@@ -106,14 +115,7 @@ const CheckboxFilter = () => {
     <div style={{ width: "20%", background: "#f8ebe0", padding: "21px" }}>
       <h2>Filter</h2>
 
-      <div
-        style={{
-          background: "#dbb697",
-          padding: "15px 21px",
-          borderRadius: "20px",
-          border: "8px solid #eedfd0",
-        }}
-      >
+      <div className={style.filterBox}>
         <h3>Species</h3>
         <FormGroup>
           <FormControlLabel
@@ -141,6 +143,38 @@ const CheckboxFilter = () => {
               />
             }
             label="Alien"
+          />
+        </FormGroup>
+      </div>
+
+      <div className={style.filterBox}>
+        <h3>Gender</h3>
+        <FormGroup>
+          <FormControlLabel
+            control={
+              <Checkbox
+                value="Female"
+                onChange={(e) => {
+                  dispatch(type(e.target.value));
+                  dispatch(typeName("gender"));
+                  dispatch(checked(e.target.checked));
+                }}
+              />
+            }
+            label="Female"
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                value="Male"
+                onChange={(e) => {
+                  dispatch(type(e.target.value));
+                  dispatch(typeName("gender"));
+                  dispatch(checked(e.target.checked));
+                }}
+              />
+            }
+            label="Male"
           />
         </FormGroup>
       </div>

@@ -5,6 +5,7 @@ const initialState = {
   typeName: "",
   checked: false,
   list: [],
+  speciesList: [],
 };
 
 const filterSlice = createSlice({
@@ -24,8 +25,12 @@ const filterSlice = createSlice({
     list: (state, action) => {
       state.list = action.payload;
     },
+    speciesList: (state, action) => {
+      state.speciesList = action.payload;
+    },
   },
 });
 
-export const { type, typeName, checked, list } = filterSlice.actions;
+export const { type, typeName, checked, list, speciesList } =
+  filterSlice.actions;
 export default filterSlice.reducer;
