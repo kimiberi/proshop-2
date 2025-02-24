@@ -70,19 +70,17 @@ const CheckboxFilter = () => {
     // }
 
     const newTypeName = `${isTypeName}['name']`;
-    console.log(newTypeName);
-
-    const filterTypeList1 = _.filter(
-      defaultPost,
-      (item) => _.get(item, newTypeName) === isType
-    );
-    console.log(filterTypeList1);
+    // console.log(newTypeName);
 
     const filterTypeList =
-      typeName !== "origin"
+      isTypeName !== "origin"
         ? _.filter(defaultPost, { [isTypeName]: isType })
-        : filterTypeList1;
+        : _.filter(
+            defaultPost,
+            (item) => _.get(item, newTypeName) === isType // find properties with "origin.name"
+          );
 
+    console.log(filterTypeList);
     // if checked AND 'isType' not yet exists THEN add it
     if (isChecked && !isTypeExist) {
       setChipList([...chipList, isType]);
@@ -119,12 +117,12 @@ const CheckboxFilter = () => {
       dispatch(list(resultTypeList));
     }
 
-    console.log(isType);
+    // console.log(isType);
     // console.log(isChecked);
     // console.log(chipList);
-    console.log(shallowList);
+    // console.log(shallowList);
     // console.log(isTypeListData);
-    console.log(isTypeName);
+    // console.log(isTypeName);
   }, [
     isType,
     isChecked,
@@ -315,6 +313,45 @@ const CheckboxFilter = () => {
             }
             label="Earth (C-137)"
           />
+          <FormControlLabel
+            control={
+              <Checkbox
+                value="unknown"
+                onChange={(e) => {
+                  dispatch(type(e.target.value));
+                  dispatch(typeName("origin"));
+                  dispatch(checked(e.target.checked));
+                }}
+              />
+            }
+            label="Unknown"
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                value="Earth (Replacement Dimension)"
+                onChange={(e) => {
+                  dispatch(type(e.target.value));
+                  dispatch(typeName("origin"));
+                  dispatch(checked(e.target.checked));
+                }}
+              />
+            }
+            label="Earth (Replacement Dimension)"
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                value="Abadango"
+                onChange={(e) => {
+                  dispatch(type(e.target.value));
+                  dispatch(typeName("origin"));
+                  dispatch(checked(e.target.checked));
+                }}
+              />
+            }
+            label="Abadango"
+          />
         </FormGroup>
       </div>
       {/* {JSON.stringify(isChecked)}
@@ -322,7 +359,15 @@ const CheckboxFilter = () => {
 
       <br />
       <br />
-      <Stack direction="row" spacing={1}>
+      <Stack
+        direction="row"
+        spacing={1}
+        sx={{
+          display: "flex",
+          flexWrap: "wrap",
+          width: "250px",
+        }}
+      >
         {chipList
           ? _.map(chipList, (chip) => (
               <Chip
