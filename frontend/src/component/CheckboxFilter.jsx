@@ -26,6 +26,8 @@ const CheckboxFilter = () => {
   const [defaultPost, setDefaultPost] = useState([]);
   const [chipList, setChipList] = useState([]);
   const [shallowList, setShallowList] = useState([]);
+  const [testList, setTestList] = useState(true);
+  const [testList1, setTestList1] = useState(true);
 
   // const [isChecked, setIsChecked] = useState(false);
   // const handleOnChange = (e) => {
@@ -45,6 +47,15 @@ const CheckboxFilter = () => {
   useEffect(() => {
     // verify if 'isType' already exists
     const isTypeExist = _.includes(chipList, isType);
+
+    // TRUE if "Human" OR "Alien" is in chipList
+    const verifySpecies = _.some(["Human", "Alien"], (value) =>
+      _.includes(chipList, value)
+    );
+    // TRUE if "Female" OR "Male" OR "Unknown" is in chipList
+    const verifyGender = _.some(["Female", "Male", "Unknown"], (value) =>
+      _.includes(chipList, value)
+    );
 
     // filter dataList based on the 'isType'
     const filterTypeList = _.filter(defaultPost, { [isTypeName]: isType });
@@ -71,7 +82,8 @@ const CheckboxFilter = () => {
       const resultTypeList = _.reduce(
         shallowList,
         (storeData, data) => {
-          if (data.species !== isType) storeData.push(data);
+          if (verifySpecies && data.species !== isType) storeData.push(data);
+          if (verifyGender && data.gender !== isType) storeData.push(data);
           return storeData;
         },
         []
@@ -81,12 +93,12 @@ const CheckboxFilter = () => {
       dispatch(list(resultTypeList));
     }
 
-    console.log(isType);
+    // console.log(isType);
     // console.log(isChecked);
-    console.log(chipList);
+    // console.log(chipList);
     // console.log(shallowList);
     // console.log(isTypeListData);
-    console.log(isTypeName);
+    // console.log(isTypeName);
   }, [
     isType,
     isChecked,
@@ -107,9 +119,70 @@ const CheckboxFilter = () => {
       if (_.isEmpty(response) || defaultPost.length === isTypeListData.length) {
         dispatch(list(defaultPost));
       }
+
+      dispatch(speciesList(response));
+      // console.log(isSpeciesList);
     };
     fetchAllDataFiltered();
-  }, [chipList, dispatch, defaultPost, isTypeListData]); // Runs only when `chipList` changes
+  }, [chipList, dispatch, defaultPost, isTypeListData, isSpeciesList]); // Runs only when `chipList` changes
+
+  // TRIAL
+  // useEffect(() => {
+  //   const fetchSpeciesList = async () => {
+  //     const response = await isTypeListData;
+
+  //     if (_.isEmpty(isSpeciesList)) {
+  //       dispatch(speciesList(response));
+  //     }
+
+  //     const idCounts = _.countBy(response, "id"); // { '1': 1, '2': 2, '3': 1 }
+  //     const hasDuplicates = _.some(idCounts, (count) => count > 1);
+  //     console.log(hasDuplicates); // true ✅ (because id: 2 is duplicated)
+
+  //     if (!_.isEmpty(isSpeciesList) && !hasDuplicates) {
+  //       dispatch(speciesList(response));
+  //     }
+
+  //     if (!_.isEmpty(isSpeciesList) && hasDuplicates && testList) {
+  //       const uniqueCharacters = _.uniqBy(response, "id");
+  //       dispatch(speciesList(uniqueCharacters));
+  //       setTestList(false);
+  //     }
+  //   };
+
+  //   fetchSpeciesList();
+
+  //   console.log(isTypeListData);
+  //   console.log(isSpeciesList);
+  // }, [isTypeListData, isSpeciesList, dispatch, chipList]);
+
+  // useEffect(() => {
+  //   const fetchSpeciesList = async () => {
+  //     const response = await isSpeciesList;
+
+  //     const idCounts = _.countBy(response, "id"); // { '1': 1, '2': 2, '3': 1 }
+  //     const hasDuplicates = _.some(idCounts, (count) => count > 1);
+  //     console.log(hasDuplicates); // true ✅ (because id: 2 is duplicated)
+
+  //     if (!hasDuplicates && testList1) {
+  //       const filterDataInOrder = (data, chipList) => {
+  //         return data.filter((item) =>
+  //           chipList.every((chip) => [item.species, item.gender].includes(chip))
+  //         );
+  //       };
+  //       const result = filterDataInOrder(response, chipList);
+  //       console.log(result); // Expected output: []
+  //       setTestList1(false);
+  //     }
+
+  //     // console.log(response);
+  //   };
+
+  //   fetchSpeciesList();
+
+  //   console.log(isTypeListData);
+  //   console.log(isSpeciesList);
+  // }, [isTypeListData, isSpeciesList, dispatch, chipList]);
 
   return (
     <div style={{ width: "20%", background: "#f8ebe0", padding: "21px" }}>
@@ -147,6 +220,8 @@ const CheckboxFilter = () => {
         </FormGroup>
       </div>
 
+      <br />
+      <br />
       <div className={style.filterBox}>
         <h3>Gender</h3>
         <FormGroup>
@@ -175,6 +250,19 @@ const CheckboxFilter = () => {
               />
             }
             label="Male"
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                value="unknown"
+                onChange={(e) => {
+                  dispatch(type(e.target.value));
+                  dispatch(typeName("gender"));
+                  dispatch(checked(e.target.checked));
+                }}
+              />
+            }
+            label="Unknown"
           />
         </FormGroup>
       </div>
