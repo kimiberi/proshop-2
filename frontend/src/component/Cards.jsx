@@ -59,7 +59,7 @@ const Cards = () => {
   };
 
   const onAscDesc = (option) => {
-    console.log(option);
+    // console.log(option);
     setOpt(option);
 
     // Sorting function
@@ -84,7 +84,7 @@ const Cards = () => {
   };
 
   useEffect(() => {
-    console.log("Sorting with option:", opt);
+    // console.log("Sorting with option:", opt);
 
     const sortData = (data, order) => {
       return _.orderBy(data, ["id"], [order]); // Sort by "id"
@@ -95,7 +95,7 @@ const Cards = () => {
         ? sortData(isTypeListData, "desc")
         : sortData(isTypeListData, "asc");
 
-    console.log("Sorted Result:", result);
+    // console.log("Sorted Result:", result);
 
     // Check if new sorted data is different before updating state
     if (!_.isEqual(sortedData, result)) {
@@ -105,12 +105,12 @@ const Cards = () => {
 
   // Dispatch to Redux when `sortedData` changes
   useEffect(() => {
-    console.log(sortedData);
+    // console.log(sortedData);
 
     if (sortedData.length > 0) {
       // not working
       dispatch(list(sortedData));
-      console.log(isTypeListData);
+      // console.log(isTypeListData);
     }
   }, [sortedData, dispatch]); // Dependencies
 

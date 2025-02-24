@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
+import Chip from "@mui/material/Chip";
+import Stack from "@mui/material/Stack";
 import style from "../css/checkboxFilter.module.css";
 import _ from "lodash";
 import { getCardContent } from "../services/api";
@@ -56,9 +58,30 @@ const CheckboxFilter = () => {
     const verifyGender = _.some(["Female", "Male", "Unknown"], (value) =>
       _.includes(chipList, value)
     );
+    // TRUE if "Female" OR "Male" OR "Unknown" is in chipList
+    const verifyOrigin = _.some(["Earth (C-137)"], (value) =>
+      _.includes(chipList, value)
+    );
 
     // filter dataList based on the 'isType'
-    const filterTypeList = _.filter(defaultPost, { [isTypeName]: isType });
+    // if (typeName !== "origin") {
+    //   const filterTypeList = _.filter(defaultPost, { [isTypeName]: isType });
+    //   console.log(filterTypeList);
+    // }
+
+    const newTypeName = `${isTypeName}['name']`;
+    console.log(newTypeName);
+
+    const filterTypeList1 = _.filter(
+      defaultPost,
+      (item) => _.get(item, newTypeName) === isType
+    );
+    console.log(filterTypeList1);
+
+    const filterTypeList =
+      typeName !== "origin"
+        ? _.filter(defaultPost, { [isTypeName]: isType })
+        : filterTypeList1;
 
     // if checked AND 'isType' not yet exists THEN add it
     if (isChecked && !isTypeExist) {
@@ -84,6 +107,9 @@ const CheckboxFilter = () => {
         (storeData, data) => {
           if (verifySpecies && data.species !== isType) storeData.push(data);
           if (verifyGender && data.gender !== isType) storeData.push(data);
+          if (verifyOrigin && data.origin["name"] !== isType)
+            storeData.push(data);
+
           return storeData;
         },
         []
@@ -93,12 +119,12 @@ const CheckboxFilter = () => {
       dispatch(list(resultTypeList));
     }
 
-    // console.log(isType);
+    console.log(isType);
     // console.log(isChecked);
     // console.log(chipList);
-    // console.log(shallowList);
+    console.log(shallowList);
     // console.log(isTypeListData);
-    // console.log(isTypeName);
+    console.log(isTypeName);
   }, [
     isType,
     isChecked,
@@ -125,6 +151,10 @@ const CheckboxFilter = () => {
     };
     fetchAllDataFiltered();
   }, [chipList, dispatch, defaultPost, isTypeListData, isSpeciesList]); // Runs only when `chipList` changes
+
+  const handleDelete = () => {
+    console.info("You clicked the delete icon.");
+  };
 
   // TRIAL
   // useEffect(() => {
@@ -266,8 +296,44 @@ const CheckboxFilter = () => {
           />
         </FormGroup>
       </div>
-      {JSON.stringify(isChecked)}
-      {JSON.stringify(isType)}
+
+      <br />
+      <br />
+      <div className={style.filterBox}>
+        <h3>Origin</h3>
+        <FormGroup>
+          <FormControlLabel
+            control={
+              <Checkbox
+                value="Earth (C-137)"
+                onChange={(e) => {
+                  dispatch(type(e.target.value));
+                  dispatch(typeName("origin"));
+                  dispatch(checked(e.target.checked));
+                }}
+              />
+            }
+            label="Earth (C-137)"
+          />
+        </FormGroup>
+      </div>
+      {/* {JSON.stringify(isChecked)}
+      {JSON.stringify(isType)} */}
+
+      <br />
+      <br />
+      <Stack direction="row" spacing={1}>
+        {chipList
+          ? _.map(chipList, (chip) => (
+              <Chip
+                label={chip}
+                onDelete={handleDelete}
+                sx={{ background: "darksalmon" }}
+              />
+            ))
+          : []}
+        {/* {JSON.stringify(chipList)} */}
+      </Stack>
     </div>
   );
 };
